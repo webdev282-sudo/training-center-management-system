@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-
 import api from '@/lib/api'
 
 import {
@@ -50,6 +49,11 @@ export default function PaymentsPage() {
     },
   })
 
+  const printAllStudents = () => {
+    window.open('http://127.0.0.1:8000/api/v1/students-payments',
+    '_blank')
+  }
+
   const filters = [
     { value: '', label: 'Tous' },
     { value: 'pending', label: 'En attente' },
@@ -60,7 +64,15 @@ export default function PaymentsPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <PageHeader title="Paiements" subtitle="Suivi des factures et versements" />
+      <PageHeader
+        title="Paiements"
+        subtitle="Suivi des factures et versements"
+        action={
+          <Button onClick={printAllStudents}>
+            Imprimer tous les étudiants
+          </Button>
+        }
+      />
 
       <Card>
         <div
@@ -85,9 +97,9 @@ export default function PaymentsPage() {
                 cursor: 'pointer',
                 background:
                   status === f.value
-                    ? 'linear-gradient(135deg,var(--accent),#4f46e5)'
-                    : 'var(--bg-elevated)',
-                color: status === f.value ? '#fff' : 'var(--text-secondary)',
+                    ? 'linear-gradient(135deg,var(--accent),var(--accent-2))'
+                    : '#fff',
+                color: status === f.value ? '#fff' : 'var(--text-2)',
                 border: status === f.value ? 'none' : '1px solid var(--border)',
                 transition: 'all .2s',
               }}
@@ -129,21 +141,21 @@ export default function PaymentsPage() {
                   <Td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <Avatar name={p.student?.fullName ?? 'U'} size={28} />
-                      <span style={{ fontWeight: 500 }}>
-                        {p.student?.fullName}
+                      <span style={{ fontWeight: 600 }}>
+                        {p.student?.fullName ?? '—'}
                       </span>
                     </div>
                   </Td>
 
                   <Td>
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 12, color: 'var(--text-3)' }}>
                       {p.enrollment?.group?.course?.title ?? '—'}
                     </span>
                   </Td>
 
                   <Td right>
                     <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>
-                      {Number(p.totalAmount).toLocaleString('fr-DZ')} DA
+                      {Number(p.totalAmount ?? 0).toLocaleString('fr-DZ')} DA
                     </span>
                   </Td>
 
@@ -152,10 +164,10 @@ export default function PaymentsPage() {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: 12,
-                        color: '#34d399',
+                        color: '#10b981',
                       }}
                     >
-                      {Number(p.paidAmount).toLocaleString('fr-DZ')} DA
+                      {Number(p.paidAmount ?? 0).toLocaleString('fr-DZ')} DA
                     </span>
                   </Td>
 
@@ -164,47 +176,28 @@ export default function PaymentsPage() {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: 12,
-                        color:
-                          p.remainingAmount > 0 ? '#f87171' : '#34d399',
-                        fontWeight: 600,
+                        color: p.remainingAmount > 0 ? '#ef4444' : '#10b981',
+                        fontWeight: 700,
                       }}
                     >
-                      {Number(p.remainingAmount).toLocaleString('fr-DZ')} DA
+                      {Number(p.remainingAmount ?? 0).toLocaleString('fr-DZ')} DA
                     </span>
                   </Td>
 
                   <Td>
-                    <PaymentBadge status={p.paymentStatus} />
+                    <PaymentBadge status={p.paymentStatus ?? 'pending'} />
                   </Td>
 
                   <Td>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      {p.paymentStatus !== 'paid' && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => setSelected(p)}
-                        >
-                          + Versement
-                        </Button>
-                      )}
-
-                      <a
-                        href={`/api/v1/reports/payment/${p.id}/receipt`}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{
-                          fontSize: 11,
-                          color: 'var(--text-muted)',
-                          textDecoration: 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          padding: '4px 8px',
-                        }}
+                    {p.paymentStatus !== 'paid' && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setSelected(p)}
                       >
-                        PDF
-                      </a>
-                    </div>
+                        + Versement
+                      </Button>
+                    )}
                   </Td>
                 </Tr>
               ))}
@@ -221,7 +214,8 @@ export default function PaymentsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div
               style={{
-                background: 'var(--bg-elevated)',
+                background: '#fff',
+                border: '1px solid var(--border)',
                 borderRadius: 'var(--r-sm)',
                 padding: 14,
                 display: 'grid',
@@ -231,61 +225,59 @@ export default function PaymentsPage() {
               }}
             >
               <div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)' }}>
                   TOTAL
                 </div>
                 <div style={{ fontFamily: 'var(--mono)', fontWeight: 700 }}>
-                  {Number(selected.totalAmount).toLocaleString('fr-DZ')} DA
+                  {Number(selected.totalAmount ?? 0).toLocaleString('fr-DZ')} DA
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)' }}>
                   PAYÉ
                 </div>
                 <div
                   style={{
                     fontFamily: 'var(--mono)',
                     fontWeight: 700,
-                    color: '#34d399',
+                    color: '#10b981',
                   }}
                 >
-                  {Number(selected.paidAmount).toLocaleString('fr-DZ')} DA
+                  {Number(selected.paidAmount ?? 0).toLocaleString('fr-DZ')} DA
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)' }}>
                   RESTE
                 </div>
                 <div
                   style={{
                     fontFamily: 'var(--mono)',
                     fontWeight: 700,
-                    color: '#f87171',
+                    color: '#ef4444',
                   }}
                 >
-                  {Number(selected.remainingAmount).toLocaleString('fr-DZ')} DA
+                  {Number(selected.remainingAmount ?? 0).toLocaleString('fr-DZ')} DA
                 </div>
               </div>
             </div>
 
             <FormField label="Montant (DA)">
               <Input
-               type="number"
-               placeholder={`Max: ${Number(
-               selected.remainingAmount
-               ).toLocaleString('fr-DZ')}`}
+                type="number"
+                placeholder={`Max: ${Number(
+                  selected.remainingAmount ?? 0
+                ).toLocaleString('fr-DZ')}`}
                 value={amount}
-               onChange={setAmount}
+                onChange={setAmount}
               />
-              
             </FormField>
 
             <FormField label="Note (optionnel)">
-
               <Input
-               placeholder="Ex: 1er versement mensuel"
+                placeholder="Ex: 1er versement mensuel"
                 value={note}
                 onChange={setNote}
               />
@@ -294,8 +286,9 @@ export default function PaymentsPage() {
             <div
               style={{
                 fontSize: 11,
-                color: 'var(--text-muted)',
-                background: 'var(--bg-elevated)',
+                color: 'var(--text-3)',
+                background: '#fff',
+                border: '1px solid var(--border)',
                 padding: '8px 12px',
                 borderRadius: 'var(--r-sm)',
               }}
@@ -324,9 +317,7 @@ export default function PaymentsPage() {
                 }
                 style={{ flex: 1, justifyContent: 'center' }}
               >
-                {addInstallment.isPending
-                  ? 'Enregistrement...'
-                  : 'Confirmer'}
+                {addInstallment.isPending ? 'Enregistrement...' : 'Confirmer'}
               </Button>
             </div>
           </div>

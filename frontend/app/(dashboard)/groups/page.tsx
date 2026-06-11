@@ -207,10 +207,11 @@ export default function GroupsPage() {
                     </span>
 
                     <ProgressBar
-                      value={g.enrolledCount}
-                      max={g.capacity}
-                      color={g.enrolledCount >= g.capacity ? '#ef4444' : 'var(--accent)'}
-                    />
+  value={g.enrolledCount}
+  max={g.capacity}
+  colorFrom={g.enrolledCount >= g.capacity ? '#ef4444' : 'var(--accent)'}
+  colorTo={g.enrolledCount >= g.capacity ? '#f97316' : 'var(--accent-2)'}
+/>
                   </div>
                 </Td>
 
@@ -221,10 +222,11 @@ export default function GroupsPage() {
                     </span>
 
                     <ProgressBar
-                      value={g.progressPercent}
-                      max={100}
-                      color="#10b981"
-                    />
+  value={g.progressPercent}
+  max={100}
+  colorFrom="#10b981"
+  colorTo="#22c55e"
+/>
                   </div>
                 </Td>
 

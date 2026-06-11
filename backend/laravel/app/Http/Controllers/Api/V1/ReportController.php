@@ -57,26 +57,59 @@ class ReportController extends Controller
         return $pdf->download("recu-paiement-{$payment->id}.pdf");
     }
 
-    public function weeklySchedule(Request $request)
-{
-    try {
-        $groups = Group::with(['course', 'teacher'])
-            ->where('status', 'active')
+    public function paymentsReport(Request $request): Response
+    {
+        $payments = Payment::with([
+            'student',
+            'enrollment.group.course',
+            'installments'
+        ])
+            ->latest()
             ->get();
 
-        $pdf = Pdf::loadView('reports.schedule', [
-            'groups' => $groups,
-        ])->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('reports.payments', compact('payments'))
+            ->setPaper('a4', 'landscape');
 
-        return $pdf->download('planning-hebdomadaire.pdf');
-
-    } catch (\Throwable $e) {
-        return response()->json([
-            'message' => 'Schedule PDF failed',
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ], 500);
+        return $pdf->download('rapport-paiements.pdf');
     }
-}
+
+    public function weeklySchedule(Request $request)
+    {
+        try {
+            $groups = Group::with(['course', 'teacher'])
+                ->where('status', 'active')
+                ->get();
+
+            $pdf = Pdf::loadView('reports.schedule', [
+                'groups' => $groups,
+            ])->setPaper('a4', 'landscape');
+
+            return $pdf->download('planning-hebdomadaire.pdf');
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Schedule PDF failed',
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
+    }
+
+    public function studentsPaymentsReport(Request $request): Response
+    {
+        $students = Student::with([
+            'payments.installments',
+            'payments.enrollment.group.course',
+            'enrollments.group.course',
+        ])
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get();
+
+        $pdf = Pdf::loadView('reports.students-payments', compact('students'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('rapport-etudiants-paiements.pdf');
+    }
 }

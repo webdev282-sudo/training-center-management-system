@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// routes/api.php  —  Version complète finale
-// ============================================================
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\{
     Auth\AuthController,
@@ -94,16 +92,24 @@ Route::put('/settings', [SettingController::class, 'update']);
             // AI Assistant (Claude API)
             Route::post('assistant',           [AiAssistantController::class, 'ask']);
             Route::get('assistant/history',    [AiAssistantController::class, 'history']);
+            Route::get('assistant/knowledge', [AiAssistantController::class, 'knowledgeIndex']);
+Route::post('assistant/knowledge', [AiAssistantController::class, 'knowledgeStore']);
+Route::delete('assistant/knowledge/{knowledge}', [AiAssistantController::class, 'knowledgeDestroy']);
         });
 
         // Reports — PDF downloads
-        Route::prefix('reports')->group(function () {
-            Route::get('student/{student}',        [ReportController::class, 'studentProfile']);
-            Route::get('group/{group}/roster',     [ReportController::class, 'groupRoster']);
-            Route::get('group/{group}/attendance', [ReportController::class, 'attendanceReport']);
-            Route::get('payment/{payment}/receipt',[ReportController::class, 'paymentReceipt']);
-            Route::get('schedule',                 [ReportController::class, 'weeklySchedule']);
+        // Reports — PDF downloads
+        
+Route::prefix('reports')->group(function () {
+    Route::get('student/{student}',        [ReportController::class, 'studentProfile']);
+    Route::get('group/{group}/roster',     [ReportController::class, 'groupRoster']);
+    Route::get('group/{group}/attendance', [ReportController::class, 'attendanceReport']);
+    Route::get('payment/{payment}/receipt',[ReportController::class, 'paymentReceipt']);
 
-        });
+    Route::get('payments', [ReportController::class, 'paymentsReport']);
+
+    Route::get('schedule', [ReportController::class, 'weeklySchedule']);
+});
     });
+    Route::get('students-payments', [ReportController::class, 'studentsPaymentsReport']);
 });
