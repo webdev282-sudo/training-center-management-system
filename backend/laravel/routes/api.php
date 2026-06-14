@@ -48,8 +48,7 @@ Route::prefix('students/{student}/notes')->group(function () {
     Route::post('/', [StudentNoteController::class, 'store']);
     Route::delete('/{note}', [StudentNoteController::class, 'destroy']);
 });  
-        Route::get('/settings', [SettingController::class, 'show']);
-Route::put('/settings', [SettingController::class, 'update']);
+        
 
         // Teachers
         Route::apiResource('teachers', TeacherController::class)->except(['destroy']);
