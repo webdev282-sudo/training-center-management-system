@@ -1,6 +1,4 @@
-// ============================================================
-// lib/api.ts  —  Axios instance with full interceptor chain
-// ============================================================
+
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 const api = axios.create({

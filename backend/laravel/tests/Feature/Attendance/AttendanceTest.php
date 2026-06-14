@@ -1,6 +1,5 @@
 <?php
-// tests/Feature/Attendance/AttendanceTest.php
-// ============================================================
+
 namespace Tests\Feature\Attendance;
  
 use App\Models\{Student, Group, Session, Enrollment, Attendance};

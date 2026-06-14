@@ -1,6 +1,5 @@
 <?php
-// tests/Feature/Sessions/SessionGeneratorTest.php
-// ============================================================
+
 namespace Tests\Feature\Sessions;
  
 use App\Models\Group;

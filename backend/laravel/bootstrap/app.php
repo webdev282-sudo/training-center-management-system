@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// bootstrap/app.php  —  Laravel 11 (fichier unique de config)
-// ============================================================
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};
 use Illuminate\Console\Scheduling\Schedule;

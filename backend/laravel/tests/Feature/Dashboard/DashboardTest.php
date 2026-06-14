@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// tests/Feature/Dashboard/DashboardTest.php
-// ============================================================
+
 namespace Tests\Feature\Dashboard;
  
 use App\Models\{Student, Group, Payment, Enrollment};

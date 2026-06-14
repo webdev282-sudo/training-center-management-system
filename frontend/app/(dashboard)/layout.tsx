@@ -1,6 +1,4 @@
-// ============================================================
-// app/(dashboard)/layout.tsx — ILIMA Modern Premium Layout
-// ============================================================
+
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'

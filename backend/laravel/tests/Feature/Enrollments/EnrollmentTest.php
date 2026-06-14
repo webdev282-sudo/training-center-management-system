@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// tests/Feature/Enrollments/EnrollmentTest.php
-// ============================================================
+
 namespace Tests\Feature\Enrollments;
  
 use App\Models\{Student, Group, Enrollment, Payment};

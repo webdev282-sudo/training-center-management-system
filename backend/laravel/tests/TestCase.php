@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// tests/TestCase.php  —  Base class for all tests
-// ============================================================
+
 namespace Tests;
  
 use App\Models\Admin;

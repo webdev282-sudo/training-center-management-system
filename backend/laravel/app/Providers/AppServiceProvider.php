@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// app/Providers/AppServiceProvider.php  —  COMPLET
-// ============================================================
+
 namespace App\Providers;
  
 use App\Models\{Student, Enrollment};

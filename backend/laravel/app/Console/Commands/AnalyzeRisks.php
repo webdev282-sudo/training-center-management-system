@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// app/Console/Commands/AnalyzeRisks.php
-// ============================================================
+
 namespace App\Console\Commands;
  
 use Illuminate\Console\Command;

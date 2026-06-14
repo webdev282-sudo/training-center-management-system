@@ -1,7 +1,4 @@
 <?php
-// ============================================================
-// tests/Feature/Auth/AuthTest.php
-// ============================================================
 namespace Tests\Feature\Auth;
  
 use App\Models\Admin;

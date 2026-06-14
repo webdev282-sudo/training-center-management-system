@@ -1,6 +1,4 @@
 
-// components/ui/KpiCard.tsx
-// ============================================================
 interface KpiCardProps {
   label: string
   value: string | number

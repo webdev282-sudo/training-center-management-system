@@ -2,17 +2,8 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Third Party Services
-    |--------------------------------------------------------------------------
-    |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more.
-    |
-    */
+    
 
-    // 🔥 Claude AI (Anthropic)
     'anthropic' => [
         'key' => env('ANTHROPIC_API_KEY'),
     ],

@@ -1,5 +1,4 @@
-{{-- resources/views/reports/group-roster.blade.php --}}
-{{-- ============================================================ --}}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

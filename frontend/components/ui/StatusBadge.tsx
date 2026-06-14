@@ -1,6 +1,4 @@
-// ============================================================
-// components/ui/StatusBadge.tsx
-// ============================================================
+
 import type { PaymentStatus } from '@/types'
  
 const paymentConfig: Record<PaymentStatus, { label: string; className: string }> = {

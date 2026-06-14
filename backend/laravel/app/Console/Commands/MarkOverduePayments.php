@@ -4,9 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-// ============================================================
-// app/Console/Commands/MarkOverduePayments.php
-// ============================================================
 class MarkOverduePayments extends Command
 {
     protected $signature   = 'ilima:mark-overdue';
